@@ -1,6 +1,6 @@
 ;;; dired-single.el --- Reuse the current dired buffer to visit a directory
 
-;; Version:    0.1.0
+;; Version:    0.3.0
 ;; Keywords:   dired, reuse, buffer
 ;; URL:        https://github.com/crocket/dired-single
 ;; License:    public-domain
