@@ -13,6 +13,7 @@
 (eval-and-compile
   (require 'cl-lib)
   (require 'dired)
+  (require 'subr-x)
   (autoload 'dired-get-filename "dired"))
 
 ;;; **************************************************************************
@@ -97,7 +98,7 @@ a dired buffer).  If the current line represents a file, the file is visited
 in another window."
   (interactive)
   ;; use arg passed in or find name of current line
-  (let ((name (or default-dirname (dired-get-filename nil t))))
+  (when-let ((name (or default-dirname (dired-get-filename nil t))))
     (save-excursion
       (save-match-data
         ;; See if the selection is a directory or not.
