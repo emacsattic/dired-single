@@ -202,7 +202,9 @@ Will also seek to uniquify the 'real' buffer name."
   "Like `dired-up-directory' but with `dired-single-buffer'."
   (interactive)
   ;; replace dired with dired-single-buffer
-  (cl-letf (((symbol-function 'dired) (symbol-function 'dired-single-buffer)))
+  (cl-letf (((symbol-function 'dired) (symbol-function 'dired-single-buffer))
+            ;; Emacs 28 version of dired-up-directory implementation
+            ((symbol-function 'dired--find-possibly-alternative-file) (symbol-function 'dired-single-buffer)))
     (dired-up-directory other-window)))
 
 ;;; **************************************************************************
