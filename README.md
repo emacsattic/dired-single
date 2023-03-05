@@ -1,5 +1,7 @@
 ## Introduction
 
+This package has been moved to https://codeberg.org/amano.kenji/dired-single
+
 This package provides a way to reuse the current dired buffer to visit
 another directory (rather than creating a new buffer for the new directory).
 Optionally, it allows the user to specify a name that all such buffers will
