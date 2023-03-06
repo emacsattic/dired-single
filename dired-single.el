@@ -1,15 +1,16 @@
-;;; dired-single.el --- Reuse the current dired buffer to visit a directory
+;;; dired-single.el --- Reuse the current dired buffer -*- lexical-binding: t; -*-
 
-;; Version:    0.3.0
-;; Keywords:   dired, reuse, buffer
-;; URL:        https://github.com/crocket/dired-single
-;; License:    public-domain
+;; Version:    0.3.1
+;; URL:        https://codeberg.org/amano.kenji/dired-single
+;; License:    0BSD
+;; Package-Requires: ((emacs "25.1"))
+
+;;; Commentary:
+
+;; This package reuses the current Dired buffer to visit a directory without
+;; creating a new buffer.
 
 ;;; Code:
-(eval-when-compile
-  (defvar byte-compile-dynamic nil) ; silence the old byte-compiler
-  (set (make-local-variable 'byte-compile-dynamic) t))
-
 (eval-and-compile
   (require 'cl-lib)
   (require 'dired)
@@ -20,7 +21,7 @@
 ;;; ***** customization routines
 ;;; **************************************************************************
 (defgroup dired-single nil
-  "dired-single package customization"
+  "Package customization for dired-single."
   :group 'tools)
 
 ;; ---------------------------------------------------------------------------
@@ -31,7 +32,7 @@
 
 ;; ---------------------------------------------------------------------------
 (defcustom dired-single-use-magic-buffer t
-  "Boolean that indicates the use of a single dired buffer name.
+  "Boolean that indicates the use of a single Dired buffer name.
 
 It is used to determine if the dired-single functions should look for and
 retain a specific buffer name.  The buffer name to look for is specified
@@ -43,7 +44,7 @@ with `dired-single-magic-buffer-name'."
 (defcustom dired-single-magic-buffer-name "*dired*"
   "Name of buffer to use if `dired-single-use-magic-buffer' is true.
 
-Once a dired buffer has this name, it will always keep this name (unless it's
+Once a Dired buffer has this name, it will always keep this name (unless it's
    explicitly renamed by you)."
   :group 'dired-single
   :type 'string)
@@ -82,19 +83,19 @@ Once a dired buffer has this name, it will always keep this name (unless it's
 
 Visits the selected directory in the current buffer, replacing the
    current contents with the contents of the new directory.  This doesn't
-   prevent you from having more than one dired buffer.  The main difference
-   is that a given dired buffer will not spawn off a new buffer every time
+   prevent you from having more than one Dired buffer.  The main difference
+   is that a given Dired buffer will not spawn off a new buffer every time
    a new directory is visited.
 
 If the variable `dired-single-use-magic-buffer' is non-nil, and the current
    buffer's name is the same as that specified by the variable
 `dired-single-magic-buffer-name', then the new directory's buffer will retain
-   that same name (i.e. not only will dired only use a single buffer, but
+   that same name (i.e. not only will Dired only use a single buffer, but
 its name will not change every time a new directory is entered).
 
 Optional argument DEFAULT-DIRNAME specifies the directory to visit; if not
 specified, the directory or file on the current line is used (assuming it's
-a dired buffer).  If the current line represents a file, the file is visited
+a Dired buffer).  If the current line represents a file, the file is visited
 in another window."
   (interactive)
   ;; use arg passed in or find name of current line
@@ -137,7 +138,7 @@ Argument CLICK is the mouse-click event."
 (defun dired-single-magic-buffer (&optional default-dirname)
   "Switch to buffer whose name is the value of `dired-single-magic-buffer-name'.
 
-If no such buffer exists, launch dired in a new buffer and rename that buffer
+If no such buffer exists, launch Dired in a new buffer and rename that buffer
 to the value of `dired-single-magic-buffer-name'.  If the current buffer is the
 magic buffer, it will prompt for a new directory to visit.
 
@@ -175,14 +176,14 @@ the currently displayed directory)."
 ;;;; ------------------------------------------------------------------------
 ;;;###autoload
 (defun dired-single-toggle-buffer-name ()
-  "Toggle between the 'magic' buffer name and the 'real' dired buffer name.
+  "Toggle between the 'magic' buffer name and the 'real' Dired buffer name.
 
 Will also seek to uniquify the 'real' buffer name."
   (interactive)
 
   ;; make sure it's a dired buffer
   (if (not (string= major-mode "dired-mode"))
-      (error "Error: not a dired buffer"))
+      (error "Error: not a Dired buffer"))
 
   ;; do we have magic name currently?
   (if (string= (buffer-name) dired-single-magic-buffer-name)
@@ -199,7 +200,9 @@ Will also seek to uniquify the 'real' buffer name."
 ;;;; ------------------------------------------------------------------------
 ;;;###autoload
 (defun dired-single-up-directory (&optional other-window)
-  "Like `dired-up-directory' but with `dired-single-buffer'."
+  "Like `dired-up-directory' but with `dired-single-buffer'.
+
+If (as OTHER-WINDOW) is non-nil, open the parent directory in a new window."
   (interactive)
   ;; replace dired with dired-single-buffer
   (cl-letf (((symbol-function 'dired) (symbol-function 'dired-single-buffer))
