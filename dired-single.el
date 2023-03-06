@@ -11,11 +11,10 @@
 ;; creating a new buffer.
 
 ;;; Code:
-(eval-and-compile
+(require 'dired)
+(eval-when-compile
   (require 'cl-lib)
-  (require 'dired)
-  (require 'subr-x)
-  (autoload 'dired-get-filename "dired"))
+  (require 'subr-x))
 
 ;;; **************************************************************************
 ;;; ***** customization routines
