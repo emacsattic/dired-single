@@ -175,9 +175,9 @@ the currently displayed directory)."
 ;;;; ------------------------------------------------------------------------
 ;;;###autoload
 (defun dired-single-toggle-buffer-name ()
-  "Toggle between the 'magic' buffer name and the 'real' Dired buffer name.
+  "Toggle between the `magic' buffer name and the `real' Dired buffer name.
 
-Will also seek to uniquify the 'real' buffer name."
+Will also seek to uniquify the `real' buffer name."
   (interactive)
 
   ;; make sure it's a dired buffer
